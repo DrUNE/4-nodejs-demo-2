@@ -21,14 +21,14 @@ const printHelp = () => {
 };
 
 const printWeather = (res, icon) => {
-	console.log(
-		dedent`${chalk.bgYellow(' WEATHER ')} Погода в городе ${res.name}
-		${icon}  ${res.weather[0].description}
-		Температура: ${res.main.temp} (ощущается как ${res.main.feels_like})
-		Влажность: ${res.main.humidity}%
-		Скорость ветра: ${res.wind.speed}
+  console.log(
+    dd`${chalk.bgYellow(' WEATHER ')} Погода в городе ${res.location.name}
+		${icon}  ${res.current.condition.text}
+		Температура: ${res.current.temp_c} ℃ (ощущается как ${res.current.feelslike_c} ℃)
+		Влажность: ${res.current.humidity}%
+		Скорость ветра: ${(res.current.wind_kph * 1000 / 3600).toFixed(2)} м/с
 		`
-	);
+  );
 };
 
 export { printError, printSuccess, printHelp, printWeather };

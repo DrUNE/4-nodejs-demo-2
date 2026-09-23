@@ -1,26 +1,27 @@
 import { getKeyValue, TOKEN_DICTIONARY } from './storage.service.js';
 
-const getIcon = (icon) => {
-	switch (icon.slice(0, -1)) {
-		case '01':
-			return '☀️';
-		case '02':
-			return '🌤️';
-		case '03':
-			return '☁️';
-		case '04':
-			return '☁️';
-		case '09':
-			return '🌧️';
-		case '10':
-			return '🌦️';
-		case '11':
-			return '🌩️';
-		case '13':
-			return '❄️';
-		case '50':
-			return '🌫️';
-	}
+const getIcon = (code) => {
+  console.log(`code: ${code}`)
+  switch (code) {
+    case 1000:
+      return '☀️';
+    case 1003:
+      return '🌤️';
+    case 1006:
+      return '☁️';
+    case 1063:
+      return '☁️';
+    case 1240:
+      return '🌧️';
+    case 1012:
+      return '🌦️';
+    case 1015:
+      return '🌩️';
+    case 1018:
+      return '❄️';
+    case 1021:
+      return '🌫️';
+  }
 };
 
 const getWeather = async (city) => {
@@ -44,4 +45,4 @@ const getWeather = async (city) => {
   return data;
 };
 
-export { getWeather };
+export { getWeather, getIcon };
