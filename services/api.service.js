@@ -1,13 +1,14 @@
 import { getKeyValue, TOKEN_DICTIONARY } from './storage.service.js';
 
 const getIcon = (code) => {
-  console.log(`code: ${code}`)
   switch (code) {
     case 1000:
       return '☀️';
+    case 1006:
+      return '🌤️';
     case 1003:
       return '🌤️';
-    case 1006:
+    case 1009:
       return '☁️';
     case 1063:
       return '☁️';
@@ -24,24 +25,24 @@ const getIcon = (code) => {
   }
 };
 
-const getWeather = async (city) => {
+const getWeather = async (...cityList) => {
   const token = process.env.TOKEN ?? await getKeyValue(TOKEN_DICTIONARY.token);
+  console.log(process.env)
   if (!token) {
     throw new Error('Не задан ключ API, задайте его через команду -t [API_KEY]');
   }
   const weatherApiUrl = 'http://api.weatherapi.com/v1/current.json';
-  const params = new URLSearchParams({
-    q: city,
-    key: token,
-    lang: 'ru'
-  });
-  const url = `${weatherApiUrl}?${params}`;
-  console.log(url);
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
-  }
-  const data = await response.json();
+  const weatherResponses = await Promise.all(cityList.map(city => {
+    const params = new URLSearchParams({
+      q: city,
+      key: token,
+      lang: 'ru_RU.UTF-8'
+    });
+    const url = `${weatherApiUrl}?${params}`;
+    return fetch(url)
+  }));
+
+  const data = await Promise.all(weatherResponses.map(response => response.json()));
   return data;
 };
 

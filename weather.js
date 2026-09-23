@@ -33,8 +33,8 @@ const saveCity = async (city) => {
 const getForcast = async () => {
   try {
     const city = process.env.CITY ?? await getKeyValue(TOKEN_DICTIONARY.city);
-    const weather = await getWeather(city);
-    printWeather(weather, getIcon(weather.current.condition.code));
+    const weatherList = await getWeather(...city.split(','));
+    weatherList.forEach(weather => printWeather(weather, getIcon(weather.current.condition.code)));
   } catch (e) {
     if (e?.response?.status == 404) {
       printError('Неверно указан город');
